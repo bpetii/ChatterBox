@@ -1,5 +1,5 @@
 import { Modal, Form, Button } from "react-bootstrap"
-import { Contact, useContacts } from "../context/ContactsProvider"
+import { useContacts } from "../context/ContactsProvider"
 import { useState } from "react"
 import { useConversations } from "../context/ConversationsProvider"
 
@@ -35,7 +35,7 @@ const NewConversationModal = ({closeModal}: Props) => {
 			<Modal.Header closeButton>Create Conversation</Modal.Header>
 			<Modal.Body>
 				<Form onSubmit={handleSubmit}>
-					{contacts.map((contact: Contact) => (
+					{contacts.map((contact) => (
             <Form.Group controlId={contact.id} key={contact.id}>
               <Form.Check
                 type="checkbox"

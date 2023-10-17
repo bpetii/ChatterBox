@@ -1,16 +1,16 @@
-import { FormattedConversation, Recipients, useConversations } from '../context/ConversationsProvider'
+import { useConversations } from '../context/ConversationsProvider'
 import { ListGroup } from 'react-bootstrap';
 
 const Conversations = () => {
   const {conversations, selectConversationIndex} = useConversations();
   return (
     <ListGroup variant='flush'>
-      {conversations.map((conversation: FormattedConversation, index: number)=> (
+      {conversations.map((conversation, index)=> (
         <ListGroup.Item
           action
           onClick={() => selectConversationIndex(index)}
           active={conversation.selected}
-          key={index}>{conversation.recipients.map((r: Recipients) => r.name).join(', ')}
+          key={index}>{conversation.recipients.map((r) => r.name).join(', ')}
         </ListGroup.Item>
       ))}
     </ListGroup>
