@@ -1,9 +1,9 @@
-import { useRef } from 'react';
+import { Dispatch, SetStateAction, useRef } from 'react';
 import {Container, Form, Button} from 'react-bootstrap';
 import {v4 as uuidV4} from 'uuid';
 
 interface Props {
-	onIdSubmit: (id:string) => string
+	onIdSubmit: Dispatch<SetStateAction<string>>
 }
 
 const Login = ({onIdSubmit}: Props) => {

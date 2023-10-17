@@ -1,6 +1,11 @@
-import {PropsWithChildren, useContext, createContext, useState} from 'react'
+import {useContext, createContext, useState, ReactNode} from 'react'
 import useLocalStorage from '../hooks/useLocalStorage'
-import {Contact, useContacts} from './ContactsProvider';
+import { useContacts} from './ContactsProvider';
+
+interface Props {
+  children: ReactNode,
+  id: string
+}
 
 export interface Conversation {
   recipients: string[],
@@ -10,7 +15,7 @@ export interface Conversation {
   }[]
 }
 
-export interface Recipients {
+export interface Recipient {
   id: string,
   name: string
 }
@@ -21,7 +26,7 @@ export interface Messages {
 }
 
 export interface FormattedConversation {
-  recipients: Recipients[]
+  recipients: Recipient[]
   messages: Messages[],
   selected: boolean
 }
@@ -39,20 +44,30 @@ export function useConversations() {
   return useContext(ConversationsContext);
 }
 
-export const ConversationsProvider = ({children}: PropsWithChildren) => {
-  const [conversations, setConversations] = useLocalStorage('conversations', []) 
+export const ConversationsProvider = ({id, children}: Props) => {
+  const [conversations, setConversations] = useLocalStorage<Conversation[]>('conversations', []) 
   const [selectedConversationIndex, setSelectedConversationIndex] = useState(0)
   const {contacts} = useContacts();
 
   const createConversations = (recipients: string[]) => {
-    setConversations((prevConversations: Conversation[]) => {
+    setConversations((prevConversations) => {
       return [...prevConversations, {recipients, messages: []}]
     })
   }
 
-  const formattedConversations = conversations.map((conversation: Conversation, index: number) => {
+  const addMessageToConversation = ({recipients, text, sender}: {recipients: Recipient[], text:string, sender: string}) => {
+    setConversations((prevConversations) => {
+
+    })
+  } 
+
+  const sendMessage = (recipients: Recipient[], text: string) => {
+    addMessageToConversation({recipients, text, sender: id})
+  }
+
+  const formattedConversations = conversations.map((conversation, index) => {
     const recipients = conversation.recipients.map(recipient=> {
-        const contact: (Contact| undefined) = contacts.find((contact: Contact) => {
+        const contact = contacts.find((contact) => {
             return contact.id === recipient
         })
         const name = (contact && contact.name) || recipient;

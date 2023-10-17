@@ -11,17 +11,17 @@ export interface ContactsContext {
   createContact: (id: string, name: string) => void
 }
 
-const ContactsContext = createContext<ContactsContext>({});
+const ContactsContext = createContext<ContactsContext >({});
 
-export function useContacts() {
+export function useContacts() : ContactsContext{
   return useContext(ContactsContext);
 }
 
 export const ContactsProvider = ({children}: PropsWithChildren) => {
-  const [contacts, setContacts] = useLocalStorage('contacts', []) 
+  const [contacts, setContacts] = useLocalStorage<Contact[]>('contacts', []) 
 
   const createContact = (id: string, name: string) => {
-    setContacts((prevContacts: Contact[]) => {
+    setContacts((prevContacts) => {
       return [...prevContacts, {id, name}]
     })
   }

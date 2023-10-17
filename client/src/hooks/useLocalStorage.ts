@@ -1,8 +1,10 @@
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 const PREFIX = 'chatter-box-';
 
-const useLocalStorage = (key: string, initialValue?: string | [] | (() => string)) => {
+type SetValue<T> = Dispatch<SetStateAction<T>>
+
+const useLocalStorage = <T>(key: string, initialValue?: string | [] | (() => string)):[T, SetValue<T>] => {
     const prefixedKey:string=  PREFIX + key;
 		const [value, setValue] = useState(() => {
 			const jsonValue = localStorage.getItem(prefixedKey);
